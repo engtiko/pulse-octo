@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home Page -->
+  <url>
+    <loc>https://www.pulseocto.com/</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.pulseocto.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.pulseocto.com/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.pulseocto.com/" />
+  </url>
+
+  <!-- The 8 Integrated Arms (Official Order 01 to 08) -->
+  <!-- 01 الهوية وبناء العلامة (arm-1) -->
+  <url>
+    <loc>https://www.pulseocto.com/branding</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 02 التسويق الرقمي والإعلانات الممولة (arm-2) -->
+  <url>
+    <loc>https://www.pulseocto.com/digital-marketing</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 03 تصميم وبرمجة المواقع المخصصة وتطوير المتاجر الإلكترونية (Custom Web & E-commerce Development): نحن لا نقتصر على منصات التجارة الإلكترونية الجاهزة فحسب، بل نصمم ونبرمج المواقع وتطبيقات الويب والمتاجر الإلكترونية المخصصة (Custom Development) بالكامل للشركات والعلامات التجارية من الصفر. نقدم حلول برمجة متكاملة وتخصيص احترافي (Customization) يلبى كافة الاحتياجات المعقدة بعيداً عن القوالب التقليدية، مع إدارة البنية التحتية والدومينات وربط بوابات الدفع وشحن المتاجر (سلة، زد، Shopify Plus، وووكومرس) بجودة عالمية وسرعة فائقة تضمن تفوقك الرقمي. -->
+  <url>
+    <loc>https://www.pulseocto.com/web-ecommerce</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 04 الاستوديو والإنتاج الإبداعي (arm-4) -->
+  <url>
+    <loc>https://www.pulseocto.com/creative-studio</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 05 المنتجات والحلول الرقمية (arm-5) -->
+  <url>
+    <loc>https://www.pulseocto.com/digital-products</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 06 الاستراتيجية ودراسة السوق (arm-6) -->
+  <url>
+    <loc>https://www.pulseocto.com/brand-strategy</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 07 صناعة المحتوى والكتابة الإعلانية (arm-7) -->
+  <url>
+    <loc>https://www.pulseocto.com/content-creation</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <!-- 08 النمو وتصدر محركات البحث (arm-8) -->
+  <url>
+    <loc>https://www.pulseocto.com/seo-growth</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Core Agency Pages -->
+  <url>
+    <loc>https://www.pulseocto.com/the-8-arms</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.pulseocto.com/services</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.pulseocto.com/portfolio</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.pulseocto.com/who-we-are</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.pulseocto.com/blog</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.pulseocto.com/contact</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>

@@ -1,0 +1,177 @@
+{
+  "entities": {
+    "StudioProject": {
+      "title": "StudioProject",
+      "description": "Persisted portfolio project override or custom client showcase managed by the agency owner.",
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Identifier matching the target built-in or custom portfolio project."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["override", "custom"],
+          "description": "Whether this document overrides a built-in portfolio project or defines a new custom project."
+        },
+        "overrideData": {
+          "type": "object",
+          "description": "Override structure for heroImage, logo, brandGuidelinesPdf, addedAssets, addedGallery, replacedAssets, and removedAssetUrls."
+        },
+        "customProject": {
+          "type": "object",
+          "description": "Complete custom ProjectItem payload when kind is 'custom'."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "UID of the verified owner who created this record."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": ["projectId", "kind", "ownerUid", "createdAt", "updatedAt"]
+    },
+    "StudioAsset": {
+      "title": "StudioAsset",
+      "description": "Persisted portfolio visual or PDF asset stored durably in Firestore.",
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Unique identifier for the studio asset."
+        },
+        "projectId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Portfolio project identifier this asset belongs to."
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["image", "pdf"],
+          "description": "Media type of the persisted asset."
+        },
+        "mimeType": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "MIME type (e.g., image/webp, image/jpeg, application/pdf)."
+        },
+        "fileName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Sanitized original filename."
+        },
+        "fileSize": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Human-readable file size label."
+        },
+        "dataUrl": {
+          "type": "string",
+          "maxLength": 900000,
+          "description": "Inline compressed data URL for single-document images or compact PDFs."
+        },
+        "chunkCount": {
+          "type": "number",
+          "description": "Number of ordered chunks in subcollection when a PDF exceeds single-doc threshold."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "UID of the verified owner who uploaded the asset."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "assetId",
+        "projectId",
+        "kind",
+        "mimeType",
+        "fileName",
+        "chunkCount",
+        "ownerUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "StudioAssetChunk": {
+      "title": "StudioAssetChunk",
+      "description": "Ordered base64 slice for large brand-guidelines PDF documents.",
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Parent studioAsset document ID."
+        },
+        "chunkIndex": {
+          "type": "number",
+          "description": "Zero-based index of the chunk."
+        },
+        "data": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600000,
+          "description": "Slice of the data URL."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "UID of the verified owner."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        }
+      },
+      "required": ["assetId", "chunkIndex", "data", "ownerUid", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/studioProjects/{projectId}": {
+      "schema": { "$ref": "#/entities/StudioProject" },
+      "description": "Published custom projects and per-project overrides for built-in portfolio clients."
+    },
+    "/studioAssets/{assetId}": {
+      "schema": { "$ref": "#/entities/StudioAsset" },
+      "description": "Durable cloud storage for uploaded portfolio images and brand PDFs."
+    },
+    "/studioAssets/{assetId}/chunks/{chunkId}": {
+      "schema": { "$ref": "#/entities/StudioAssetChunk" },
+      "description": "Ordered payload chunks for multi-part Brand Book PDFs."
+    }
+  }
+}

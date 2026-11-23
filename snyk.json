@@ -1,0 +1,27 @@
+{
+  "$schema": "https://snyk.io/schema/snyk-policy-v1.json",
+  "version": "v1.25.0",
+  "project": "pulse-octo",
+  "contact": "sales@pulseocto.com",
+  "securityPolicy": {
+    "severityThreshold": "high",
+    "failOn": "upgradable",
+    "auditProductionOnly": false,
+    "monitorDependencies": true,
+    "autoRemediation": {
+      "patches": true,
+      "upgrades": true,
+      "pinDependencies": false
+    }
+  },
+  "ignore": {},
+  "patch": {},
+  "exclude": {
+    "global": [
+      "dist/**",
+      "node_modules/**",
+      "**/*.test.ts",
+      "**/*.spec.ts"
+    ]
+  }
+}

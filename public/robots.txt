@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Host: https://www.pulseocto.com
+Sitemap: https://www.pulseocto.com/sitemap.xml
+

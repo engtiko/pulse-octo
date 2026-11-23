@@ -1,0 +1,223 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Reusable primitives
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedAdmin() {
+      return isSignedIn()
+        && request.auth.token.email_verified == true
+        && (
+          request.auth.token.email == 'pulseocto0o@gmail.com'
+          || exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        );
+    }
+
+    // Validation Blueprint: StudioProject (custom project or built-in override)
+    function isValidStudioProject(data, projectId) {
+      return data.keys().hasAll(['projectId', 'kind', 'ownerUid', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly([
+          'projectId',
+          'kind',
+          'overrideData',
+          'customProject',
+          'ownerUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.projectId is string
+        && data.projectId == projectId
+        && isValidId(data.projectId)
+        && data.kind is string
+        && (data.kind == 'override' || data.kind == 'custom')
+        && (!('overrideData' in data) || data.overrideData is map)
+        && (!('customProject' in data) || data.customProject is map)
+        && data.ownerUid is string
+        && data.ownerUid.size() >= 1
+        && data.ownerUid.size() <= 128
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // Validation Blueprint: StudioAsset (image or PDF record)
+    function isValidStudioAsset(data, assetId) {
+      return data.keys().hasAll([
+          'assetId',
+          'projectId',
+          'kind',
+          'mimeType',
+          'fileName',
+          'chunkCount',
+          'ownerUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'assetId',
+          'projectId',
+          'kind',
+          'mimeType',
+          'fileName',
+          'fileSize',
+          'dataUrl',
+          'chunkCount',
+          'ownerUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.assetId is string
+        && data.assetId == assetId
+        && isValidId(data.assetId)
+        && data.projectId is string
+        && isValidId(data.projectId)
+        && data.kind is string
+        && (data.kind == 'image' || data.kind == 'pdf')
+        && data.mimeType is string
+        && data.mimeType.size() >= 3
+        && data.mimeType.size() <= 100
+        && data.fileName is string
+        && data.fileName.size() >= 1
+        && data.fileName.size() <= 200
+        && (!('fileSize' in data) || (data.fileSize is string && data.fileSize.size() <= 32))
+        && (!('dataUrl' in data) || (data.dataUrl is string && data.dataUrl.size() <= 900000))
+        && data.chunkCount is number
+        && data.chunkCount >= 0
+        && data.chunkCount <= 40
+        && data.ownerUid is string
+        && data.ownerUid.size() >= 1
+        && data.ownerUid.size() <= 128
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // Validation Blueprint: StudioAssetChunk (for large PDFs)
+    function isValidStudioAssetChunk(data, assetId) {
+      return data.keys().hasAll(['assetId', 'chunkIndex', 'data', 'ownerUid', 'createdAt'])
+        && data.keys().hasOnly(['assetId', 'chunkIndex', 'data', 'ownerUid', 'createdAt'])
+        && data.assetId is string
+        && data.assetId == assetId
+        && isValidId(data.assetId)
+        && data.chunkIndex is number
+        && data.chunkIndex >= 0
+        && data.chunkIndex <= 40
+        && data.data is string
+        && data.data.size() >= 1
+        && data.data.size() <= 600000
+        && data.ownerUid is string
+        && data.ownerUid.size() >= 1
+        && data.ownerUid.size() <= 128
+        && data.createdAt is timestamp;
+    }
+
+    // Connection probe document for startup verification (no PII)
+    match /test/connection {
+      allow get: if true;
+      allow list, write: if false;
+    }
+
+    // Admin registry (bootstrap admin only; non-public)
+    match /admins/{adminUid} {
+      allow get: if isValidId(adminUid) && isSignedIn() && request.auth.uid == adminUid && isVerifiedAdmin();
+      allow list, create, update, delete: if false;
+    }
+
+    // Published portfolio projects & overrides (public read-only showcase, verified-admin-only writes)
+    match /studioProjects/{projectId} {
+      allow get: if isValidId(projectId);
+      allow list: if true;
+      allow create: if isVerifiedAdmin()
+        && isValidId(projectId)
+        && isValidStudioProject(incoming(), projectId)
+        && incoming().ownerUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isVerifiedAdmin()
+        && isValidId(projectId)
+        && isValidStudioProject(incoming(), projectId)
+        && incoming().ownerUid == existing().ownerUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().projectId == existing().projectId
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'kind',
+          'overrideData',
+          'customProject',
+          'updatedAt'
+        ]);
+      allow delete: if isVerifiedAdmin() && isValidId(projectId);
+    }
+
+    // Durable media assets (images & brand books; public read-only showcase, verified-admin-only writes)
+    match /studioAssets/{assetId} {
+      allow get: if isValidId(assetId);
+      allow list: if true;
+      allow create: if isVerifiedAdmin()
+        && isValidId(assetId)
+        && isValidStudioAsset(incoming(), assetId)
+        && incoming().ownerUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isVerifiedAdmin()
+        && isValidId(assetId)
+        && isValidStudioAsset(incoming(), assetId)
+        && incoming().ownerUid == existing().ownerUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().assetId == existing().assetId
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'projectId',
+          'kind',
+          'mimeType',
+          'fileName',
+          'fileSize',
+          'dataUrl',
+          'chunkCount',
+          'updatedAt'
+        ]);
+      allow delete: if isVerifiedAdmin() && isValidId(assetId);
+
+      // Master-Gated subcollection for multi-part Brand Book PDF chunks
+      match /chunks/{chunkId} {
+        allow get: if isValidId(assetId) && isValidId(chunkId);
+        allow list: if isValidId(assetId);
+        allow create: if isVerifiedAdmin()
+          && isValidId(assetId)
+          && isValidId(chunkId)
+          && isValidStudioAssetChunk(incoming(), assetId)
+          && incoming().ownerUid == request.auth.uid
+          && incoming().createdAt == request.time
+          && exists(/databases/$(database)/documents/studioAssets/$(assetId))
+          && get(/databases/$(database)/documents/studioAssets/$(assetId)).data.projectId is string;
+        allow update: if isVerifiedAdmin()
+          && isValidId(assetId)
+          && isValidId(chunkId)
+          && isValidStudioAssetChunk(incoming(), assetId)
+          && incoming().ownerUid == existing().ownerUid
+          && incoming().createdAt == existing().createdAt
+          && incoming().assetId == existing().assetId
+          && incoming().diff(existing()).affectedKeys().hasOnly(['chunkIndex', 'data'])
+          && exists(/databases/$(database)/documents/studioAssets/$(assetId));
+        allow delete: if isVerifiedAdmin() && isValidId(assetId) && isValidId(chunkId);
+      }
+    }
+  }
+}

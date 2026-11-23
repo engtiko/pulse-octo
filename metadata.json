@@ -1,0 +1,6 @@
+{
+  "name": "Pulse OCTO",
+  "description": "Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة. نقود نمو العلامات التجارية عبر 8 أذرع متخصصة: الهوية البصرية، الإعلانات الممولة، برمجة المواقع والمتاجر، الإنتاج الإبداعي، الحلول التقنية، الاستراتيجية، صناعة المحتوى، وتصدر محركات البحث SEO.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
