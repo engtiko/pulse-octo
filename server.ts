@@ -994,12 +994,7 @@ async function startServer() {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        hmr:
-          process.env.DISABLE_HMR === 'true'
-            ? false
-            : {
-                clientPort: 443,
-              },
+        hmr: false,
       },
       appType: 'custom',
     });
