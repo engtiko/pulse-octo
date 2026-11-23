@@ -1009,6 +1009,7 @@ async function startServer() {
         const indexHtmlPath = path.resolve(__dirname, 'index.html');
         let template = fs.readFileSync(indexHtmlPath, 'utf-8');
         template = await vite.transformIndexHtml(req.originalUrl, template);
+        template = template.replace(/<script\s+type="module"\s+src="\/@vite\/client"><\/script>\s*/i, '');
         const html = injectCanonicalIntoHtml(template, req.path);
         res.status(200).set({ 'Content-Type': 'text/html; charset=utf-8' }).end(html);
       } catch (err) {
