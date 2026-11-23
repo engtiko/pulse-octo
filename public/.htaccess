@@ -10,6 +10,15 @@ AddType application/json .json
   RewriteEngine On
   RewriteBase /
 
+  # 0. Canonical 301 Redirect: Unify pulseocto.com & HTTP -> https://www.pulseocto.com (single hop, loop-safe)
+  RewriteCond %{HTTP_HOST} ^pulseocto\.com$ [NC]
+  RewriteRule ^(.*)$ https://www.pulseocto.com/$1 [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.pulseocto\.com$ [NC]
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^(.*)$ https://www.pulseocto.com/$1 [L,R=301]
+
   # 1. Serve Markdown representation when AI agents request Accept: text/markdown on homepage
   RewriteCond %{HTTP_ACCEPT} text/markdown [NC]
   RewriteRule ^/?$ /index.md [L,T=text/markdown;charset=utf-8]
