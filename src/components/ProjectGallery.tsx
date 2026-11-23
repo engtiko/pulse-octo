@@ -366,7 +366,11 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
               <div className="my-auto py-6 flex items-center justify-center w-full">
                 <img
                   src={getOptimizedImageProps(project.logo, { isLogo: true }).src}
-                  alt={`${project.client} Official Logo`}
+                  alt={
+                    isAr
+                      ? `شعار ${project.client} الرسمي — تصميم الهوية البصرية من وكالة Pulse OCTO`
+                      : `${project.client} Official Logo — Visual Identity by Pulse OCTO`
+                  }
                   width={240}
                   height={240}
                   loading="eager"
@@ -446,7 +450,11 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
               <div className="relative flex-1 w-full overflow-hidden flex items-center justify-center bg-[#08070c]">
                 <img
                   src={getOptimizedImageProps(brandVisuals[0].url).src}
-                  alt={`${project.client} Brand Cover`}
+                  alt={
+                    isAr
+                      ? `غلاف وبوستر الهوية البصرية لمشروع ${project.client} — ${brandVisuals[0].title}`
+                      : `${project.client} Brand Cover — ${brandVisuals[0].titleEn || brandVisuals[0].title}`
+                  }
                   width={960}
                   height={600}
                   loading="eager"
@@ -517,7 +525,11 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
               >
                 <img
                   src={getOptimizedImageProps(bItem.url).src}
-                  alt={`${project.client} — ${bItem.title}`}
+                  alt={
+                    isAr
+                      ? `تصميم هوية بصرية لمشروع ${project.client} — ${bItem.title}`
+                      : `${project.client} Visual Identity — ${bItem.titleEn || bItem.title}`
+                  }
                   width={640}
                   height={400}
                   loading="lazy"
@@ -626,7 +638,11 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
                   >
                     <img
                       src={getOptimizedImageProps(item.url).src}
-                      alt={`${project.client} Studio Product Shot ${idx + 1}`}
+                      alt={
+                        isAr
+                          ? `تصوير منتجات استوديو لمشروع ${project.client} — لقطة ${idx + 1}`
+                          : `${project.client} Studio Product Shot ${idx + 1}`
+                      }
                       width={520}
                       height={390}
                       loading="lazy"
@@ -846,8 +862,8 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
                       src={getOptimizedImageProps(mItem.url).src}
                       alt={
                         isAr
-                          ? `${project.client} — ${mItem.title}`
-                          : `${project.client} — ${mItem.titleEn || mItem.title}`
+                          ? `موك اب الهوية البصرية لمشروع ${project.client} — ${mItem.title}`
+                          : `${project.client} Brand Mockup — ${mItem.titleEn || mItem.title}`
                       }
                       width={1200}
                       height={720}
@@ -973,7 +989,11 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
                         src={optLook.src}
                         srcSet={optLook.srcSet}
                         sizes="(max-width: 768px) 50vw, 33vw"
-                        alt={lookTitle}
+                        alt={
+                          isAr
+                            ? `تصميم أزياء لمشروع ${project.client} — ${lookTitle}`
+                            : `${project.client} Lookbook — ${lookTitle}`
+                        }
                         width={600}
                         height={800}
                         loading="lazy"
@@ -1149,7 +1169,11 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({
                       src={optPoster.src}
                       srcSet={optPoster.srcSet}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      alt={`${project.client} — ${posterTitle}`}
+                      alt={
+                        isAr
+                          ? `بوستر سوشيال ميديا لمشروع ${project.client} — ${posterTitle}`
+                          : `${project.client} Social Media Poster — ${posterTitle}`
+                      }
                       width={600}
                       height={750}
                       loading="lazy"

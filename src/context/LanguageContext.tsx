@@ -261,27 +261,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     document.documentElement.dir = dir;
     document.documentElement.lang = lang;
-
-    // Update document title and meta description
-    if (lang === 'en') {
-      document.title = 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency';
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute(
-          'content',
-          'Pulse OCTO — Integrated Digital Marketing & Tech Solutions Agency in Egypt. Crafting influential branding, high-conversion e-commerce, and growth campaigns with eight synchronized arms.'
-        );
-      }
-    } else {
-      document.title = 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة';
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute(
-          'content',
-          'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة في مصر، نقدم خدمات بناء العلامات التجارية، التسويق الرقمي، وتطوير المواقع والمتاجر الإلكترونية بأذرع ثمانية متكاملة.'
-        );
-      }
-    }
   }, [lang, dir]);
 
   const setLang = (newLang: Language) => {

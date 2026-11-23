@@ -141,40 +141,40 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                       </span>
                       <ul className="space-y-2.5">
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/"
                             data-prefetch-route="home"
                             onClick={(e) => handleLinkClick(e, 'home')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'الرئيسية' : 'Home'}
-                          </button>
+                          </a>
                         </li>
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/about"
                             data-prefetch-route="who-we-are"
                             onMouseEnter={() => prefetchRoute('who-we-are')}
                             onFocus={() => prefetchRoute('who-we-are')}
                             onTouchStart={() => prefetchRoute('who-we-are')}
                             onClick={(e) => handleLinkClick(e, 'who-we-are')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'من نحن' : 'About'}
-                          </button>
+                          </a>
                         </li>
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/the-8-arms"
                             data-prefetch-route="the-8-arms"
                             onMouseEnter={() => prefetchRoute('the-8-arms')}
                             onFocus={() => prefetchRoute('the-8-arms')}
                             onTouchStart={() => prefetchRoute('the-8-arms')}
                             onClick={(e) => handleLinkClick(e, 'the-8-arms')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'الأذرع الثمانية' : 'The 8 Arms'}
-                          </button>
+                          </a>
                         </li>
                       </ul>
                     </div>
@@ -186,30 +186,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                       </span>
                       <ul className="space-y-2.5">
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/services"
                             data-prefetch-route="services"
                             onMouseEnter={() => prefetchRoute('services')}
                             onFocus={() => prefetchRoute('services')}
                             onTouchStart={() => prefetchRoute('services')}
                             onClick={(e) => handleLinkClick(e, 'services')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'الخدمات المتكاملة' : 'Disciplines'}
-                          </button>
+                          </a>
                         </li>
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/portfolio"
                             data-prefetch-route="portfolio"
                             onMouseEnter={() => prefetchRoute('portfolio')}
                             onFocus={() => prefetchRoute('portfolio')}
                             onTouchStart={() => prefetchRoute('portfolio')}
                             onClick={(e) => handleLinkClick(e, 'portfolio')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'معرض الأعمال' : 'Portfolio'}
-                          </button>
+                          </a>
                         </li>
                         <li>
                           <a
@@ -232,30 +232,30 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                       </span>
                       <ul className="space-y-2.5">
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/blog"
                             data-prefetch-route="blog"
                             onMouseEnter={() => prefetchRoute('blog')}
                             onFocus={() => prefetchRoute('blog')}
                             onTouchStart={() => prefetchRoute('blog')}
                             onClick={(e) => handleLinkClick(e, 'blog')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'الرؤى والمدونة' : 'Insights'}
-                          </button>
+                          </a>
                         </li>
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/contact"
                             data-prefetch-route="contact"
                             onMouseEnter={() => prefetchRoute('contact')}
                             onFocus={() => prefetchRoute('contact')}
                             onTouchStart={() => prefetchRoute('contact')}
                             onClick={(e) => handleLinkClick(e, 'contact')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'تواصل معنا' : 'Contact Us'}
-                          </button>
+                          </a>
                         </li>
                         <li className="pt-1">
                           <a
@@ -379,37 +379,37 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                       </span>
                       <ul className="space-y-2.5">
                         <li>
-                          <button
-                            type="button"
+                          <a
+                            href="/contact"
                             data-prefetch-route="contact"
                             onMouseEnter={() => prefetchRoute('contact')}
                             onFocus={() => prefetchRoute('contact')}
                             onTouchStart={() => prefetchRoute('contact')}
                             onClick={(e) => handleLinkClick(e, 'contact')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium"
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-block"
                           >
                             {isAr ? 'الأسئلة الشائعة' : 'FAQs'}
-                          </button>
+                          </a>
                         </li>
                         <li>
-                          <button
-                            type="button"
-                            onClick={() => setActiveLegalModal('privacy')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium flex items-center gap-1.5"
+                          <a
+                            href="/privacy"
+                            onClick={(e) => handleLinkClick(e, 'privacy')}
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-flex items-center gap-1.5"
                           >
                             <Lock className="w-3.5 h-3.5 text-[#c9b3ff]" />
                             <span>{isAr ? 'سياسة الخصوصية والبيانات' : 'Privacy Policy'}</span>
-                          </button>
+                          </a>
                         </li>
                         <li>
-                          <button
-                            type="button"
-                            onClick={() => setActiveLegalModal('terms')}
-                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium flex items-center gap-1.5"
+                          <a
+                            href="/terms"
+                            onClick={(e) => handleLinkClick(e, 'terms')}
+                            className="text-[#e6e2f2] hover:text-white transition-colors cursor-pointer font-medium inline-flex items-center gap-1.5"
                           >
                             <FileText className="w-3.5 h-3.5 text-[#c9b3ff]" />
                             <span>{isAr ? 'الشروط والأحكام' : 'Terms of Service'}</span>
-                          </button>
+                          </a>
                         </li>
                       </ul>
                     </div>

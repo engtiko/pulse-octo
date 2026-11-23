@@ -270,7 +270,11 @@ export const ClientTrustMarquee: React.FC<ClientTrustMarqueeProps> = ({
                       src={logoOpt.src}
                       srcSet={logoOpt.srcSet}
                       sizes={logoOpt.sizes}
-                      alt={clientName}
+                      alt={
+                        isAr
+                          ? `شعار ${client.nameAr} — ${client.deliverableAr} من تنفيذ وكالة Pulse OCTO`
+                          : `${client.nameEn} logo — ${client.deliverableEn} by Pulse OCTO`
+                      }
                       loading="lazy"
                       decoding="async"
                       width={48}
@@ -287,9 +291,9 @@ export const ClientTrustMarquee: React.FC<ClientTrustMarqueeProps> = ({
                 {/* Unboxed Editorial Client Info */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-purple-200 transition-colors truncate">
+                    <p className="text-sm sm:text-base font-bold text-white group-hover:text-purple-200 transition-colors truncate">
                       {clientName}
-                    </h3>
+                    </p>
                     <ArrowUpRight
                       className={`w-3.5 h-3.5 text-zinc-500 group-hover:text-purple-300 transition-colors shrink-0 ${
                         dir === 'rtl' ? '-scale-x-100' : ''

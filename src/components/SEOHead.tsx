@@ -6,6 +6,7 @@ import {
   getCanonicalUrlForView,
   resolveViewFromUrlOrSlug,
   syncDocumentCanonical,
+  syncSingleMetaTag,
 } from '../hooks/useSEO';
 import {
   DEFAULT_SITE_URL,
@@ -352,21 +353,12 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   // Dynamic Section/View Metadata & Dedicated OG Image resolved from SECTION_OG_IMAGE_MAP / ARMS_OG_IMAGE_LIST
   const resolvedSection = useMemo(() => resolveViewFromUrlOrSlug(activeTarget), [activeTarget]);
   const currentMeta = VIEW_SEO_DATA[resolvedSection] || VIEW_SEO_DATA.home;
-  const rawTitle = customTitle || (isAr ? currentMeta.titleAr : currentMeta.titleEn);
-  const rawDescription =
+  const pageTitle = customTitle || (isAr ? currentMeta.titleAr : currentMeta.titleEn);
+  const pageDescription =
     customDescription || (isAr ? currentMeta.descAr : currentMeta.descEn);
-
-  const seoKeywordAr = 'وكالة تسويق رقمي وحلول تقنية متكاملة';
-  const pageTitle = isAr
-    ? rawTitle.includes(seoKeywordAr)
-      ? rawTitle
-      : `${rawTitle} — ${seoKeywordAr}`
-    : rawTitle;
-  const pageDescription = isAr
-    ? rawDescription.includes(seoKeywordAr)
-      ? rawDescription
-      : `${seoKeywordAr} — ${rawDescription}`
-    : rawDescription;
+  const ogDescription =
+    customDescription ||
+    (isAr ? currentMeta.ogDescAr || currentMeta.descAr : currentMeta.ogDescEn || currentMeta.descEn);
 
   const siteUrl = DEFAULT_SITE_URL;
   const currentUrl = propCanonicalUrl || getCanonicalUrlForView(resolvedSection);
@@ -377,51 +369,39 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   const ogImageUrl = ogImg.fullUrl;
   const ogImageAlt = isAr ? ogImg.altAr : ogImg.altEn;
   const ogType = currentMeta.ogType || 'website';
-  const siteName = isAr
-    ? 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة'
-    : 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency';
+  const siteName = 'Pulse OCTO';
 
-  // Ensure immediate synchronous DOM meta tag updates and notify live preview tools
+  // Ensure immediate synchronous DOM meta tag updates with zero duplicates
   useIsomorphicLayoutEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    const setMetaTag = (attributeName: 'name' | 'property', attributeValue: string, content: string) => {
-      const elements = document.head.querySelectorAll(`meta[${attributeName}="${attributeValue}"]`);
-      if (elements.length === 0) {
-        const element = document.createElement('meta');
-        element.setAttribute(attributeName, attributeValue);
-        element.setAttribute('content', content);
-        document.head.appendChild(element);
-      } else {
-        elements.forEach((el) => {
-          el.setAttribute('content', content);
-        });
-      }
-    };
-
+    document.documentElement.lang = lang;
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
     document.title = pageTitle;
-    setMetaTag('name', 'title', pageTitle);
-    setMetaTag('name', 'description', pageDescription);
 
-    setMetaTag('property', 'og:type', ogType);
-    setMetaTag('property', 'og:url', currentUrl);
-    setMetaTag('property', 'og:title', pageTitle);
-    setMetaTag('property', 'og:description', pageDescription);
-    setMetaTag('property', 'og:image', ogImageUrl);
-    setMetaTag('property', 'og:image:secure_url', ogImageUrl);
-    setMetaTag('property', 'og:image:type', 'image/jpeg');
-    setMetaTag('property', 'og:image:width', '1200');
-    setMetaTag('property', 'og:image:height', '630');
-    setMetaTag('property', 'og:image:alt', ogImageAlt);
-    setMetaTag('property', 'og:site_name', siteName);
-    setMetaTag('property', 'og:locale', isAr ? 'ar_EG' : 'en_US');
+    syncSingleMetaTag('name', 'title', pageTitle);
+    syncSingleMetaTag('name', 'description', pageDescription);
 
-    setMetaTag('name', 'twitter:card', 'summary_large_image');
-    setMetaTag('name', 'twitter:url', currentUrl);
-    setMetaTag('name', 'twitter:title', pageTitle);
-    setMetaTag('name', 'twitter:description', pageDescription);
-    setMetaTag('name', 'twitter:image', ogImageUrl);
-    setMetaTag('name', 'twitter:image:alt', ogImageAlt);
+    syncSingleMetaTag('property', 'og:type', ogType);
+    syncSingleMetaTag('property', 'og:site_name', siteName);
+    syncSingleMetaTag('property', 'og:title', pageTitle);
+    syncSingleMetaTag('property', 'og:description', ogDescription);
+    syncSingleMetaTag('property', 'og:url', currentUrl);
+    syncSingleMetaTag('property', 'og:image', ogImageUrl);
+    syncSingleMetaTag('property', 'og:image:secure_url', ogImageUrl);
+    syncSingleMetaTag('property', 'og:image:type', 'image/jpeg');
+    syncSingleMetaTag('property', 'og:image:width', '1200');
+    syncSingleMetaTag('property', 'og:image:height', '630');
+    syncSingleMetaTag('property', 'og:image:alt', ogImageAlt);
+    syncSingleMetaTag('property', 'og:locale', isAr ? 'ar_EG' : 'en_US');
+    syncSingleMetaTag('property', 'og:locale:alternate', isAr ? 'en_US' : 'ar_EG');
+
+    syncSingleMetaTag('name', 'twitter:card', 'summary_large_image');
+    syncSingleMetaTag('name', 'twitter:url', currentUrl);
+    syncSingleMetaTag('name', 'twitter:title', pageTitle);
+    syncSingleMetaTag('name', 'twitter:description', ogDescription);
+    syncSingleMetaTag('name', 'twitter:image', ogImageUrl);
+    syncSingleMetaTag('name', 'twitter:image:alt', ogImageAlt);
 
     syncDocumentCanonical(currentUrl);
 
@@ -444,6 +424,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     resolvedSection,
     pageTitle,
     pageDescription,
+    ogDescription,
     currentUrl,
     ogImageUrl,
     ogImg.localPath,
@@ -451,6 +432,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     ogType,
     siteName,
     isAr,
+    lang,
   ]);
 
   // Direct injection into document.head via the SEO utility hook
@@ -462,36 +444,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 
   return (
     <Helmet>
-      {/* HTML Attributes */}
+      {/* HTML Attributes & Title only — meta and canonical tags are managed exclusively by syncSingleMetaTag/syncDocumentCanonical to prevent duplicates */}
       <html lang={lang} dir={isAr ? 'rtl' : 'ltr'} />
-
-      {/* Primary Page Titles & Meta (canonical managed exclusively by syncDocumentCanonical to avoid duplicates) */}
       <title>{pageTitle}</title>
-      <meta name="title" content={pageTitle} />
-      <meta name="description" content={pageDescription} />
-
-      {/* Open Graph / Facebook / WhatsApp */}
-      <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={currentUrl} />
-      <meta property="og:title" content={pageTitle} />
-      <meta property="og:description" content={pageDescription} />
-      <meta property="og:image" content={ogImageUrl} />
-      <meta property="og:image:secure_url" content={ogImageUrl} />
-      <meta property="og:image:type" content="image/jpeg" />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-      <meta property="og:image:alt" content={ogImageAlt} />
-      <meta property="og:site_name" content={siteName} />
-      <meta property="og:locale" content={isAr ? 'ar_EG' : 'en_US'} />
-      <meta property="og:locale:alternate" content={isAr ? 'en_US' : 'ar_EG'} />
-
-      {/* Twitter / X */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={currentUrl} />
-      <meta name="twitter:title" content={pageTitle} />
-      <meta name="twitter:description" content={pageDescription} />
-      <meta name="twitter:image" content={ogImageUrl} />
-      <meta name="twitter:image:alt" content={ogImageAlt} />
     </Helmet>
   );
 };

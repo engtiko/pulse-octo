@@ -7,7 +7,11 @@ import { ProjectsProvider } from './context/ProjectsContext';
 import { ToastProvider } from './context/ToastContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { registerPulseOctoWebMcpTools } from './utils/webMcp';
 import './index.css';
+
+// Register WebMCP tools immediately on page load for in-browser AI agents
+registerPulseOctoWebMcpTools();
 
 // Calculate and update --vh CSS custom property on the html element for mobile viewports
 const updateVh = () => {

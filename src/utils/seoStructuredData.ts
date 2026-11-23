@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FAQ_ITEMS, FAQItem } from '../data/faqData';
+import { HOME_FAQ_SCHEMA_ITEMS, FAQItem } from '../data/faqData';
 
 export interface StructuredDataOptions {
   lang?: 'ar' | 'en';
@@ -64,22 +64,19 @@ export function generateProfessionalServiceSchema(options: StructuredDataOptions
 
   return {
     '@context': 'https://schema.org',
-    '@type': ['MarketingAgency', 'ProfessionalService'],
+    '@type': ['ProfessionalService', 'MarketingAgency'],
     '@id': `${siteUrl}/#organization`,
-    name: isAr
-      ? 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة'
-      : 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency',
+    name: 'Pulse OCTO',
     alternateName: [
-      'Pulse OCTO',
-      'وكالة تسويق رقمي وحلول تقنية متكاملة',
-      'وكالة Pulse OCTO للتسويق الرقمي والحلول المتكاملة',
+      'Pulse OCTO | وكالة تسويق رقمي وحلول برمجية متكاملة في مصر',
+      'وكالة Pulse OCTO للتسويق الرقمي والحلول التقنية المتكاملة',
       'بولس أكتو',
       'وكالة Pulse OCTO الرقمية',
       'Pulse OCTO Agency',
       'Pulse OCTO Digital Marketing & Tech Solutions',
     ],
     slogan: 'ONE BRAND. ONE SYSTEM. ONE PULSE.',
-    url: siteUrl,
+    url: `${siteUrl}/`,
     logo: {
       '@type': 'ImageObject',
       '@id': `${siteUrl}/#logo`,
@@ -87,12 +84,12 @@ export function generateProfessionalServiceSchema(options: StructuredDataOptions
       contentUrl: logoUrl,
       width: 512,
       height: 512,
-      caption: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة',
+      caption: 'Pulse OCTO | وكالة تسويق رقمي وحلول برمجية متكاملة في مصر',
     },
     image: [logoUrl, `${siteUrl}/og/home.jpg`],
     description: isAr
-      ? 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة. نقود نمو العلامات التجارية عبر 8 أذرع متخصصة: الهوية البصرية، الإعلانات الممولة، برمجة المواقع والمتاجر، الإنتاج الإبداعي، الحلول التقنية، الاستراتيجية، صناعة المحتوى، وتصدر محركات البحث SEO.'
-      : 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency. Scaling brands across Egypt and the GCC through 8 synchronized arms: Branding, Digital Marketing, Web & E-Commerce, Creative Studio, Tech Solutions, Brand Strategy, Content Creation, and SEO & Growth.',
+      ? 'Pulse OCTO وكالة تسويق رقمي وحلول برمجية متكاملة في بنها ومصر. نطور أعمالك عبر 8 أذرع: الهوية البصرية، الإعلانات الممولة، برمجة المواقع، والـ SEO.'
+      : 'Pulse OCTO is an integrated digital marketing and software solutions agency in Benha, Qalyubia, Egypt. Scaling brands across 8 synchronized arms: Branding, Paid Media, Web & E-Commerce, Creative Studio, Tech Solutions, Strategy, Content, and SEO.',
     telephone: '+201112998882',
     email: 'CEO@pulseOCTO.com',
     priceRange: '$$',
@@ -100,8 +97,8 @@ export function generateProfessionalServiceSchema(options: StructuredDataOptions
     paymentAccepted: 'Credit Card, Bank Wire, Cash, Vodafone Cash, InstaPay',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: isAr ? 'شارع فريد ندا، بنها الجديدة' : 'Farid Nada Street, New Banha',
-      addressLocality: isAr ? 'بنها' : 'Banha',
+      streetAddress: isAr ? 'شارع فريد ندا، بنها الجديدة' : 'Farid Nada Street, New Benha',
+      addressLocality: isAr ? 'بنها' : 'Benha',
       addressRegion: isAr ? 'القليوبية' : 'Qalyubia',
       postalCode: '13511',
       addressCountry: 'EG',
@@ -385,7 +382,7 @@ export function generateFAQPageSchema(options: StructuredDataOptions = {}) {
   const lang = options.lang || 'ar';
   const isAr = lang === 'ar';
   const siteUrl = DEFAULT_SITE_URL;
-  const faqs = options.customFaqs || FAQ_ITEMS.slice(0, 6);
+  const faqs = options.customFaqs || HOME_FAQ_SCHEMA_ITEMS;
 
   const mainEntity = faqs.map((item) => ({
     '@type': 'Question',
@@ -401,11 +398,11 @@ export function generateFAQPageSchema(options: StructuredDataOptions = {}) {
     '@type': 'FAQPage',
     '@id': `${siteUrl}/#faq`,
     name: isAr
-      ? 'الأسئلة الشائعة - وكالة Pulse OCTO للتسويق الرقمي والحلول المتكاملة'
-      : 'Pulse OCTO Frequently Asked Questions',
+      ? 'إجابات صريحة عن منظومة الأذرع - Pulse OCTO'
+      : 'Direct Answers About the 8-Arm System - Pulse OCTO',
     description: isAr
-      ? 'إجابات شاملة عن خدمات التسويق الرقمي، الميزانيات الإعلانية، منظومة الأذرع الثمانية، ونماذج التعاقد.'
-      : 'Comprehensive answers regarding digital marketing services, ad spend budgets, the 8-arm ecosystem, and onboarding.',
+      ? 'إجابات صريحة عن منظومة الأذرع الثمانية في وكالة Pulse OCTO للتسويق الرقمي والحلول البرمجية المتكاملة.'
+      : 'Direct answers about Pulse OCTO’s 8-arm digital marketing and software solutions system.',
     mainEntity,
   };
 }
@@ -623,9 +620,11 @@ export function injectPulseOctoSchemas(
 ): () => void {
   const professionalServiceSchema = generateProfessionalServiceSchema(options);
   const websiteSchema = generateWebSiteAndBreadcrumbSchema(options);
+  const faqPageSchema = generateFAQPageSchema(options);
 
   injectJsonLdScript(SCRIPT_ID_PROFESSIONAL_SERVICE, professionalServiceSchema);
   injectJsonLdScript(SCRIPT_ID_WEBSITE_BREADCRUMB, websiteSchema);
+  injectJsonLdScript(SCRIPT_ID_FAQ_PAGE, faqPageSchema);
 
   if (options.activeView) {
     const activeServiceSchema = generateSingleArmServiceSchema(

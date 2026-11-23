@@ -1,0 +1,56 @@
+# Pulse OCTO
+
+> وكالة تسويق رقمي وحلول برمجية متكاملة في بنها ومصر — ONE BRAND. ONE SYSTEM. ONE PULSE. (8 ARMS. ONE SYSTEM.)
+
+Pulse OCTO is an integrated Egyptian digital agency headquartered in Benha, Qalyubia, Egypt, serving brands across Egypt and the GCC. Rather than fragmented standalone services, Pulse OCTO operates one connected digital growth system powered by 8 specialized arms.
+
+## Core Pages
+
+- [Homepage (Arabic / RTL)](https://www.pulseocto.com/): Main landing experience and overview of the 8-Arm digital growth system.
+- [Homepage (Markdown)](https://www.pulseocto.com/index.md): Clean token-efficient Markdown representation of the homepage.
+- [About Pulse OCTO (من نحن)](https://www.pulseocto.com/about): Brand philosophy, leadership, and integrated agency methodology.
+- [The 8 Arms (منظومة الأذرع الثمانية)](https://www.pulseocto.com/the-8-arms): Deep dive into how all eight disciplines connect into one system.
+- [Services (الخدمات المتكاملة)](https://www.pulseocto.com/services): Complete breakdown of agency capabilities.
+- [Portfolio (معرض الأعمال)](https://www.pulseocto.com/portfolio): Selected real client case studies and visual brand systems.
+- [Insights & Blog (الرؤى والمدونة)](https://www.pulseocto.com/blog): Articles on brand building, performance marketing, e-commerce, and SEO.
+- [Contact Us (تواصل معنا)](https://www.pulseocto.com/contact): Direct consultation request form and contact channels.
+- [Privacy Policy (سياسة الخصوصية)](https://www.pulseocto.com/privacy): Data protection, asset ownership, and NDA commitments.
+- [Terms of Service (الشروط والأحكام)](https://www.pulseocto.com/terms): Service level commitments and integrated collaboration standards.
+
+## The 8 Integrated Arms
+
+1. [01 Branding & Visual Identity](https://www.pulseocto.com/branding): Brand strategy, logos, visual identity systems, brand guidelines, and packaging.
+2. [02 Digital Marketing & Paid Media](https://www.pulseocto.com/digital-marketing): Performance media buying across Meta, Google, TikTok, and Snapchat, plus social media management.
+3. [03 Custom Web & E-Commerce Development](https://www.pulseocto.com/web-ecommerce): Custom websites, web applications, and high-converting e-commerce stores (custom builds, Shopify, Salla, Zid, WooCommerce).
+4. [04 Creative Studio & Production](https://www.pulseocto.com/creative-studio): Commercial video production, studio product photography, motion graphics, Reels, 3D, and CGI.
+5. [05 Digital Products & Automation](https://www.pulseocto.com/digital-products): Mobile apps, custom software platforms, interactive dashboards, CRM/API integrations, and business automation.
+6. [06 Brand Strategy & Market Research](https://www.pulseocto.com/brand-strategy): Market and competitor research, brand positioning, customer journeys, and go-to-market planning.
+7. [07 Content Creation & Copywriting](https://www.pulseocto.com/content-creation): Conversion copywriting, creative content systems, commercial scripts, and editorial storytelling.
+8. [08 SEO & Growth Optimization](https://www.pulseocto.com/seo-growth): Technical & on-page SEO, conversion rate optimization (CRO), GA4, and server-side tracking (CAPI).
+
+## Selected Portfolio Clients
+
+- **Ladies Shop (ليديز شوب)**: Brand identity, visual system, and e-commerce experience.
+- **Zeyad Optical (نظارات زياد)**: Brand identity, studio product photography, and advertising visuals.
+- **Al-Namaa Academy (أكاديمية النماء للتربية الخاصة)**: Brand identity and digital presence.
+- **Halan Delivery (حالا دليفري)**: Brand identity, fleet visuals, and promotional collateral.
+- **Adamco (أدمكو للنقل والرحلات)**: Brand identity, visual designs, and media production.
+- **Athar (أثر)**: Modest fashion brand identity, visual direction, and lookbook showcase.
+
+## Verified Contact Information
+
+- **Website**: https://www.pulseocto.com/
+- **Location**: Farid Nada Street, New Benha, Qalyubia, Egypt (شارع فريد ندا، بنها الجديدة، القليوبية، مصر)
+- **Phone**: +201112998882 (01112998882)
+- **WhatsApp**: https://wa.me/201116066968 (01116066968)
+- **Email**: CEO@pulseOCTO.com
+- **Instagram**: https://www.instagram.com/pulse.octo/
+- **Facebook**: https://www.facebook.com/profile.php?id=61589519280210
+- **TikTok**: https://www.tiktok.com/@tarekakl
+
+## Agent & Machine Discovery
+
+- **MCP Server Card (SEP-1649)**: https://www.pulseocto.com/.well-known/mcp/server-card.json
+- **MCP Endpoint**: https://www.pulseocto.com/api/mcp
+- **Sitemap**: https://www.pulseocto.com/sitemap.xml
+- **Content Signals**: search=yes, ai-input=yes, ai-train=no

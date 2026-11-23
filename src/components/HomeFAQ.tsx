@@ -1,8 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 import { ScrollHeaderReveal } from './ScrollReveal';
-import { FAQ_ITEMS } from '../data/faqData';
+import { HOME_FAQ_SCHEMA_ITEMS } from '../data/faqData';
+import {
+  generateFAQPageSchema,
+  injectJsonLdScript,
+  SCRIPT_ID_FAQ_PAGE,
+} from '../utils/seoStructuredData';
 import {
   ChevronDown,
   Copy,
@@ -34,87 +39,27 @@ export const HomeFAQ: React.FC<HomeFAQProps> = () => {
   const [openIds, setOpenIds] = useState<string[]>(['faq-schema-1']); // First accordion open by default
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // Extract and synchronize data with index.html FAQPage JSON-LD schema
-  const schemaFaqs = useMemo<ParsedSchemaFAQ[]>(() => {
-    const fallbackList: ParsedSchemaFAQ[] = [
-      {
-        id: 'faq-schema-1',
-        questionAr: 'كيف تختلف وكالة Pulse OCTO ومنظومة الأذرع الثمانية عن الوكالات التقليدية؟',
-        questionEn: "How does Pulse OCTO's 8-arm ecosystem differ from traditional digital agencies?",
-        answerAr: 'نوظف منظومة الأذرع الثمانية المتزامنة لتغطية الإعلانات المدفوعة، الهويات البصرية، المتاجر الإلكترونية، والمحتوى دون وسطاء وتحت سقف استراتيجي واحد لتعظيم العائد وبناء أصول رقمية مستدامة.',
-        answerEn: 'Pulse OCTO eliminates departmental silos and middlemen through our synchronized 8-Arm ecosystem (Paid Media, Brand Identity, High-Converting Stores, Studio Production, SEO, and Custom Growth Blueprints) under one strategic roof.',
-        category: isAr ? 'المنظومة والاستراتيجية' : 'System & Strategy',
-      },
-      {
-        id: 'faq-schema-2',
-        questionAr: 'ما هي الميزانية الإعلانية المناسبة للبدء في الحملات الممولة؟',
-        questionEn: 'What advertising budget is recommended to launch high-converting paid campaigns?',
-        answerAr: 'نبدأ بدراسة هوية علامتك وحجم السوق المستهدف ومعدل التحويل المتوقع بميزانية اختبارية لاكتشاف أفضل الزوايا الإعلانية ثم مضاعفة الحملات الرابحة بشكل مدروس.',
-        answerEn: 'We tailor advertising spend to your sector, market maturity, and target unit economics rather than imposing rigid quotas. We start with a focused test budget to validate winning creative angles, then systematically scale winning ad campaigns.',
-        category: isAr ? 'الميزانيات والعائد' : 'Budgets & ROAS',
-      },
-      {
-        id: 'faq-schema-3',
-        questionAr: 'أين يقع مقر وكالة Pulse OCTO وهل تقدمون خدمات خارج مصر؟',
-        questionEn: 'Where is Pulse OCTO located and do you provide services outside Egypt?',
-        answerAr: 'يقع مقرنا الرئيسي في مدينة بنها بمحافظة القليوبية، مصر، وندير علامات تجارية ومتاجر إلكترونية ناجحة في السعودية، الإمارات، الكويت، قطر، والأسواق العالمية.',
-        answerEn: 'Our headquarters is located in Banha City, Qalyubia, Egypt, while our arms actively scale successful e-commerce brands and advertising campaigns across Saudi Arabia, UAE, Kuwait, Qatar, and international markets.',
-        category: isAr ? 'النطاق الجغرافي' : 'Territory & Presence',
-      },
-      {
-        id: 'faq-schema-4',
-        questionAr: 'كم يستغرق وقت إطلاق وتطوير متجر إلكتروني احترافي أو بناء هوية بصرية؟',
-        questionEn: 'What is the turnaround timeline for an e-commerce store or brand identity?',
-        answerAr: 'بفضل منهجية العمل المتزامنة: الهويات البصرية تستغرق بين 7 إلى 14 يوم عمل، بينما المتاجر الإلكترونية السريعة تكتمل خلال 10 إلى 21 يوماً شاملة بوابات الدفع والشحن والبكسلات التحليلية.',
-        answerEn: 'Through our synchronized workflow: Brand identities take 7 to 14 business days, while conversion-ready e-commerce platforms deploy within 10 to 21 business days with integrated payment gateways, shipping APIs, and tracking analytics.',
-        category: isAr ? 'المدة والتسليم' : 'Timeline & Delivery',
-      },
-      {
-        id: 'faq-schema-5',
-        questionAr: 'هل يمكنني طلب ذراع واحدة محددة (مثل إدارة الإعلانات فقط) أم يشترط باقة كاملة؟',
-        questionEn: 'Can I hire a single specialized arm or is a full package required?',
-        answerAr: 'نعم بالتأكيد. صممنا منظومة "الأذرع الثمانية" بنظام معياري مرن (Modular). يمكنك البدء بذراع واحدة وتفعيل باقي الأذرع تدريجياً مع نمو مبيعاتك وتوسع علامتك التجارية.',
-        answerEn: 'Absolutely. Our 8-arm ecosystem is modular. You can engage a single arm (such as Meta/Google ad scaling or store optimization) and dynamically activate additional arms as your revenue grows.',
-        category: isAr ? 'مرونة التعاقد' : 'Modular Retainers',
-      },
-      {
-        id: 'faq-schema-6',
-        questionAr: 'كيف تضمنون تحقيق مبيعات حقيقية وعائد استثماري وليس مجرد مشاهدات؟',
-        questionEn: 'How do you safeguard genuine sales conversions rather than hollow engagement?',
-        answerAr: 'نعتمد استراتيجية Conversion-First: نقوم بربط لوحات تتبع دقيقة (Google Analytics 4, Meta Conversions API CAPI) مع تحسين سرعة صفحات الهبوط واختبار زوايا إعلانية متجددة باستمرار لمنع تسرب العملاء.',
-        answerEn: 'We implement a strict Conversion-First architecture with server-side tracking (Meta CAPI, GA4), continuous creative hook testing, and conversion-rate optimization to maximize Average Order Value and net profit.',
-        category: isAr ? 'مؤشرات الأداء' : 'Conversion & Analytics',
-      }
-    ];
+  // Single source of truth shared between the rendered FAQ section and the FAQPage JSON-LD schema
+  const schemaFaqs = useMemo<ParsedSchemaFAQ[]>(
+    () =>
+      HOME_FAQ_SCHEMA_ITEMS.map((item) => ({
+        id: item.id,
+        questionAr: item.question.ar,
+        questionEn: item.question.en,
+        answerAr: item.answer.ar,
+        answerEn: item.answer.en,
+        category: isAr ? item.categoryLabel.ar : item.categoryLabel.en,
+      })),
+    [isAr]
+  );
 
-    if (typeof document !== 'undefined') {
-      const script = document.getElementById('pulseocto-jsonld-faqpage');
-      if (script && script.textContent) {
-        try {
-          const parsed = JSON.parse(script.textContent);
-          if (parsed && Array.isArray(parsed.mainEntity) && parsed.mainEntity.length > 0) {
-            return parsed.mainEntity.map((entity: { name?: string; acceptedAnswer?: { text?: string } }, idx: number) => {
-              const matchedFaqItem = FAQ_ITEMS.find(
-                (item) => item.question.ar === entity.name || item.question.en === entity.name
-              );
-
-              return {
-                id: `faq-schema-${idx + 1}`,
-                questionAr: matchedFaqItem?.question.ar || entity.name || '',
-                questionEn: matchedFaqItem?.question.en || entity.name || '',
-                answerAr: matchedFaqItem?.answer.ar || entity.acceptedAnswer?.text || '',
-                answerEn: matchedFaqItem?.answer.en || entity.acceptedAnswer?.text || '',
-                category: fallbackList[idx]?.category || (isAr ? 'منظومة Pulse OCTO' : 'Pulse OCTO Core'),
-              };
-            });
-          }
-        } catch {
-          // If JSON parse fails, cleanly use fallback structured list
-        }
-      }
-    }
-
-    return fallbackList;
+  // Dynamically synchronize the <head> FAQPage JSON-LD script with the exact displayed Q&As
+  useEffect(() => {
+    const faqSchema = generateFAQPageSchema({
+      lang: isAr ? 'ar' : 'en',
+      customFaqs: HOME_FAQ_SCHEMA_ITEMS,
+    });
+    injectJsonLdScript(SCRIPT_ID_FAQ_PAGE, faqSchema);
   }, [isAr]);
 
   const toggleAccordion = (id: string) => {

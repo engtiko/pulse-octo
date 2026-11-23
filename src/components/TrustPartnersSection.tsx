@@ -389,7 +389,11 @@ export const TrustPartnersSection: React.FC<TrustPartnersSectionProps> = ({
                           sizes={logoOpt.sizes}
                           width={44}
                           height={44}
-                          alt={isAr ? partner.nameAr : partner.nameEn}
+                          alt={
+                            isAr
+                              ? `شعار ${partner.nameAr} — ${partner.categoryAr} | عملاء Pulse OCTO`
+                              : `${partner.nameEn} logo — ${partner.categoryEn} | Pulse OCTO client`
+                          }
                           className="w-full h-full object-contain transition-opacity duration-300"
                           loading="lazy"
                           decoding="async"
@@ -414,9 +418,9 @@ export const TrustPartnersSection: React.FC<TrustPartnersSectionProps> = ({
 
                   {/* Card Middle: Partner Name & Category */}
                   <div className="mb-4">
-                    <h3 className="text-base font-bold text-white group-hover/card:text-purple-200 transition-colors line-clamp-1">
+                    <p className="text-base font-bold text-white group-hover/card:text-purple-200 transition-colors line-clamp-1">
                       {isAr ? partner.nameAr : partner.nameEn}
-                    </h3>
+                    </p>
                     <p className="mt-1 text-xs text-zinc-400 line-clamp-1">
                       {isAr ? partner.categoryAr : partner.categoryEn}
                     </p>

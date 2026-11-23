@@ -39,6 +39,9 @@ const PortfolioPage = React.lazy(pageChunkLoaders['portfolio']);
 const BlogPage = React.lazy(pageChunkLoaders['blog']);
 const ContactPage = React.lazy(pageChunkLoaders['contact']);
 const DigitalBusinessCardPage = React.lazy(pageChunkLoaders['card']);
+const LegalPage = React.lazy(() =>
+  import('./pages/LegalPage').then((m) => ({ default: m.LegalPage }))
+);
 const OwnerStudioDock = React.lazy(() =>
   import('./components/OwnerStudioDock').then((m) => ({
     default: m.OwnerStudioDock,
@@ -118,6 +121,8 @@ function getPageFromPathname(): string {
   if (routeToken === 'portfolio' || routeToken === 'projects') return 'portfolio';
   if (routeToken === 'blog' || routeToken === 'insights') return 'blog';
   if (routeToken === 'contact') return 'contact';
+  if (routeToken === 'privacy' || routeToken === 'privacy-policy') return 'privacy';
+  if (routeToken === 'terms' || routeToken === 'terms-of-service' || routeToken === 'legal') return 'terms';
   if (
     routeToken === 'card' ||
     routeToken === 'vcard' ||
@@ -520,6 +525,10 @@ export default function App() {
 
               {currentPage === 'card' && (
                 <DigitalBusinessCardPage onNavigate={handleNavigate} />
+              )}
+
+              {(currentPage === 'privacy' || currentPage === 'terms') && (
+                <LegalPage mode={currentPage} onNavigate={handleNavigate} />
               )}
               </React.Suspense>
             </ErrorBoundary>

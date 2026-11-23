@@ -144,3 +144,114 @@ export const FAQ_ITEMS: FAQItem[] = [
     tags: ['خطوات', 'تعاقد', 'بدء', 'استشارة', 'onboarding', 'process', 'steps']
   }
 ];
+
+export interface HomeFAQItem extends FAQItem {
+  categoryLabel: {
+    ar: string;
+    en: string;
+  };
+}
+
+/**
+ * Exact 6 homepage FAQ items displayed in the "إجابات صريحة عن منظومة الأذرع" section.
+ * Used as the single source of truth for both HomeFAQ UI and the dynamic FAQPage JSON-LD schema.
+ */
+export const HOME_FAQ_SCHEMA_ITEMS: HomeFAQItem[] = [
+  {
+    id: 'faq-schema-1',
+    category: 'general',
+    categoryLabel: {
+      ar: 'المنظومة والاستراتيجية',
+      en: 'System & Strategy',
+    },
+    question: {
+      ar: 'كيف تختلف وكالة Pulse OCTO ومنظومة الأذرع الثمانية عن الوكالات التقليدية؟',
+      en: "How does Pulse OCTO's 8-arm ecosystem differ from traditional digital agencies?",
+    },
+    answer: {
+      ar: 'نوظف منظومة الأذرع الثمانية المتزامنة لتغطية الإعلانات المدفوعة، الهويات البصرية، المتاجر الإلكترونية، والمحتوى دون وسطاء وتحت سقف استراتيجي واحد لتعظيم العائد وبناء أصول رقمية مستدامة.',
+      en: 'Pulse OCTO eliminates departmental silos and middlemen through our synchronized 8-Arm ecosystem (Paid Media, Brand Identity, High-Converting Stores, Studio Production, SEO, and Custom Growth Blueprints) under one strategic roof.',
+    },
+  },
+  {
+    id: 'faq-schema-2',
+    category: 'budgets',
+    categoryLabel: {
+      ar: 'الميزانيات والعائد',
+      en: 'Budgets & ROAS',
+    },
+    question: {
+      ar: 'ما هي الميزانية الإعلانية المناسبة للبدء في الحملات الممولة؟',
+      en: 'What advertising budget is recommended to launch high-converting paid campaigns?',
+    },
+    answer: {
+      ar: 'نبدأ بدراسة هوية علامتك وحجم السوق المستهدف ومعدل التحويل المتوقع بميزانية اختبارية لاكتشاف أفضل الزوايا الإعلانية ثم مضاعفة الحملات الرابحة بشكل مدروس.',
+      en: 'We tailor advertising spend to your sector, market maturity, and target unit economics rather than imposing rigid quotas. We start with a focused test budget to validate winning creative angles, then systematically scale winning ad campaigns.',
+    },
+  },
+  {
+    id: 'faq-schema-3',
+    category: 'general',
+    categoryLabel: {
+      ar: 'النطاق الجغرافي',
+      en: 'Territory & Presence',
+    },
+    question: {
+      ar: 'أين يقع مقر وكالة Pulse OCTO وهل تقدمون خدمات خارج مصر؟',
+      en: 'Where is Pulse OCTO located and do you provide services outside Egypt?',
+    },
+    answer: {
+      ar: 'يقع مقرنا الرئيسي في مدينة بنها بمحافظة القليوبية، مصر، وندير علامات تجارية ومتاجر إلكترونية ناجحة في السعودية، الإمارات، الكويت، قطر، والأسواق العالمية.',
+      en: 'Our headquarters is located in Benha, Qalyubia, Egypt, while our arms actively scale successful e-commerce brands and advertising campaigns across Saudi Arabia, UAE, Kuwait, Qatar, and international markets.',
+    },
+  },
+  {
+    id: 'faq-schema-4',
+    category: 'timeline',
+    categoryLabel: {
+      ar: 'المدة والتسليم',
+      en: 'Timeline & Delivery',
+    },
+    question: {
+      ar: 'كم يستغرق وقت إطلاق وتطوير متجر إلكتروني احترافي أو بناء هوية بصرية؟',
+      en: 'What is the turnaround timeline for an e-commerce store or brand identity?',
+    },
+    answer: {
+      ar: 'بفضل منهجية العمل المتزامنة: الهويات البصرية تستغرق بين 7 إلى 14 يوم عمل، بينما المتاجر الإلكترونية السريعة تكتمل خلال 10 إلى 21 يوماً شاملة بوابات الدفع والشحن والبكسلات التحليلية.',
+      en: 'Through our synchronized workflow: Brand identities take 7 to 14 business days, while conversion-ready e-commerce platforms deploy within 10 to 21 business days with integrated payment gateways, shipping APIs, and tracking analytics.',
+    },
+  },
+  {
+    id: 'faq-schema-5',
+    category: 'general',
+    categoryLabel: {
+      ar: 'مرونة التعاقد',
+      en: 'Modular Retainers',
+    },
+    question: {
+      ar: 'هل يمكنني طلب ذراع واحدة محددة (مثل إدارة الإعلانات فقط) أم يشترط باقة كاملة؟',
+      en: 'Can I hire a single specialized arm or is a full package required?',
+    },
+    answer: {
+      ar: 'نعم بالتأكيد. صممنا منظومة "الأذرع الثمانية" بنظام معياري مرن (Modular). يمكنك البدء بذراع واحدة وتفعيل باقي الأذرع تدريجياً مع نمو مبيعاتك وتوسع علامتك التجارية.',
+      en: 'Absolutely. Our 8-arm ecosystem is modular. You can engage a single arm (such as Meta/Google ad scaling or store optimization) and dynamically activate additional arms as your revenue grows.',
+    },
+  },
+  {
+    id: 'faq-schema-6',
+    category: 'budgets',
+    categoryLabel: {
+      ar: 'مؤشرات الأداء',
+      en: 'Conversion & Analytics',
+    },
+    question: {
+      ar: 'كيف تضمنون تحقيق مبيعات حقيقية وعائد استثماري وليس مجرد مشاهدات؟',
+      en: 'How do you safeguard genuine sales conversions rather than hollow engagement?',
+    },
+    answer: {
+      ar: 'نعتمد استراتيجية Conversion-First: نقوم بربط لوحات تتبع دقيقة (Google Analytics 4, Meta Conversions API CAPI) مع تحسين سرعة صفحات الهبوط واختبار زوايا إعلانية متجددة باستمرار لمنع تسرب العملاء.',
+      en: 'We implement a strict Conversion-First architecture with server-side tracking (Meta CAPI, GA4), continuous creative hook testing, and conversion-rate optimization to maximize Average Order Value and net profit.',
+    },
+  },
+];
+

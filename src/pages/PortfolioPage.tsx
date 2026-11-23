@@ -570,8 +570,8 @@ export const PortfolioPage: React.FC<PortfolioPageProps> = ({
                             sizes="(max-width: 640px) 176px, 208px"
                             alt={
                               isAr
-                                ? `شعار ${proj.client}`
-                                : `${proj.client} Official Logo`
+                                ? `شعار ${proj.client} الرسمي — ${proj.category} من تنفيذ وكالة Pulse OCTO`
+                                : `${proj.client} Official Logo — ${proj.category} by Pulse OCTO`
                             }
                             width={208}
                             height={208}

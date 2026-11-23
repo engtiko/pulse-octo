@@ -93,7 +93,11 @@ const CaseStudyCardContent: React.FC<CardContentProps> = ({
             {/* Real Client Image Asset */}
             <BlurUpImage
               src={currentVisual}
-              alt={project.title}
+              alt={
+                isAr
+                  ? `بوستر وعرض مشروع ${project.client} — ${project.title} من تنفيذ وكالة Pulse OCTO`
+                  : `${project.client} — ${project.title} showcase by Pulse OCTO`
+              }
               className="w-full h-full"
               imgClassName="object-cover object-center transform group-hover/img:scale-[1.03] transition-transform duration-700 ease-out"
             />
@@ -111,7 +115,11 @@ const CaseStudyCardContent: React.FC<CardContentProps> = ({
               >
                 <BlurUpImage
                   src={project.logo}
-                  alt={project.client}
+                  alt={
+                    isAr
+                      ? `شعار ${project.client} الرسمي — ${project.category}`
+                      : `${project.client} official logo — ${project.category}`
+                  }
                   className="w-full h-full"
                   imgClassName={project.id === 'athar' ? 'object-cover rounded' : 'object-contain'}
                 />
@@ -138,11 +146,19 @@ const CaseStudyCardContent: React.FC<CardContentProps> = ({
                             : 'border-white/15 opacity-60 hover:opacity-100'
                         }`}
                         title={`${project.client} 0${assetIndex + 1}`}
-                        aria-label={`View asset 0${assetIndex + 1}`}
+                        aria-label={
+                          isAr
+                            ? `عرض لقطة ${assetIndex + 1} لمشروع ${project.client}`
+                            : `View asset 0${assetIndex + 1}`
+                        }
                       >
                         <BlurUpImage
                           src={assetUrl}
-                          alt=""
+                          alt={
+                            isAr
+                              ? `لقطة ${assetIndex + 1} من بوسترات وأعمال مشروع ${project.client}`
+                              : `${project.client} poster preview ${assetIndex + 1}`
+                          }
                           className="w-full h-full"
                           imgClassName="object-cover"
                         />

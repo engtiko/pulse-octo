@@ -13,6 +13,8 @@ export interface ViewSEOMetadata {
   titleEn: string;
   descAr: string;
   descEn: string;
+  ogDescAr?: string;
+  ogDescEn?: string;
   canonicalPath?: string;
   ogImagePath?: string;
   ogImageAltAr?: string;
@@ -22,25 +24,29 @@ export interface ViewSEOMetadata {
 
 export const VIEW_SEO_DATA: Record<string, ViewSEOMetadata> = {
   home: {
-    titleAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة',
-    titleEn: 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency',
-    descAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة. نقود نمو العلامات التجارية عبر 8 أذرع متخصصة: الهوية البصرية، الإعلانات الممولة، برمجة المواقع والمتاجر، الإنتاج الإبداعي، الحلول التقنية، الاستراتيجية، صناعة المحتوى، وتصدر محركات البحث SEO.',
-    descEn: 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency. Scaling brands and e-commerce through 8 specialized arms: Branding, Paid Media, Web & E-Commerce, Creative Studio, Tech Solutions, Strategy, Content, and SEO.',
+    titleAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول برمجية متكاملة في مصر',
+    titleEn: 'Pulse OCTO | Integrated Digital Marketing & Software Solutions Agency in Egypt',
+    descAr: 'Pulse OCTO وكالة تسويق رقمي وحلول برمجية متكاملة في بنها ومصر. نطور أعمالك عبر 8 أذرع: الهوية البصرية، الإعلانات الممولة، برمجة المواقع، والـ SEO. تواصل معنا الآن!',
+    descEn: 'Pulse OCTO is an integrated digital marketing and software solutions agency in Banha, Egypt. Scaling your brand across 8 arms: Branding, Paid Media, Web Development, and SEO.',
+    ogDescAr: 'نطور أعمالك عبر 8 أذرع متخصصة: الهوية البصرية، الإعلانات الممولة، برمجة المواقع والمتاجر، الإنتاج الإبداعي، وتصدر محركات البحث SEO.',
+    ogDescEn: 'We grow your business across 8 specialized arms: Branding, Paid Media, Web & E-Commerce Development, Creative Studio, and SEO.',
     canonicalPath: '/',
     ogImagePath: '/og/home.jpg',
-    ogImageAltAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة',
-    ogImageAltEn: 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency',
+    ogImageAltAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول برمجية متكاملة في مصر',
+    ogImageAltEn: 'Pulse OCTO | Integrated Digital Marketing & Software Solutions Agency in Egypt',
     ogType: 'website',
   },
   hero: {
-    titleAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة',
-    titleEn: 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency',
-    descAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة. نقود نمو العلامات التجارية عبر 8 أذرع متخصصة: الهوية البصرية، الإعلانات الممولة، برمجة المواقع والمتاجر، الإنتاج الإبداعي، الحلول التقنية، الاستراتيجية، صناعة المحتوى، وتصدر محركات البحث SEO.',
-    descEn: 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency. Scaling brands and e-commerce through 8 specialized arms: Branding, Paid Media, Web & E-Commerce, Creative Studio, Tech Solutions, Strategy, Content, and SEO.',
+    titleAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول برمجية متكاملة في مصر',
+    titleEn: 'Pulse OCTO | Integrated Digital Marketing & Software Solutions Agency in Egypt',
+    descAr: 'Pulse OCTO وكالة تسويق رقمي وحلول برمجية متكاملة في بنها ومصر. نطور أعمالك عبر 8 أذرع: الهوية البصرية، الإعلانات الممولة، برمجة المواقع، والـ SEO. تواصل معنا الآن!',
+    descEn: 'Pulse OCTO is an integrated digital marketing and software solutions agency in Banha, Egypt. Scaling your brand across 8 arms: Branding, Paid Media, Web Development, and SEO.',
+    ogDescAr: 'نطور أعمالك عبر 8 أذرع متخصصة: الهوية البصرية، الإعلانات الممولة، برمجة المواقع والمتاجر، الإنتاج الإبداعي، وتصدر محركات البحث SEO.',
+    ogDescEn: 'We grow your business across 8 specialized arms: Branding, Paid Media, Web & E-Commerce Development, Creative Studio, and SEO.',
     canonicalPath: '/',
     ogImagePath: '/og/home.jpg',
-    ogImageAltAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة',
-    ogImageAltEn: 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency',
+    ogImageAltAr: 'Pulse OCTO | وكالة تسويق رقمي وحلول برمجية متكاملة في مصر',
+    ogImageAltEn: 'Pulse OCTO | Integrated Digital Marketing & Software Solutions Agency in Egypt',
     ogType: 'website',
   },
   'who-we-are': {
@@ -184,6 +190,28 @@ export const VIEW_SEO_DATA: Record<string, ViewSEOMetadata> = {
     ogImagePath: '/og/who-we-are.jpg',
     ogImageAltAr: 'م. طارق وجيه - بطاقة الأعمال الرقمية Pulse OCTO',
     ogImageAltEn: 'Eng. Tarek Wagih - Pulse OCTO Digital Business Card',
+    ogType: 'website',
+  },
+  privacy: {
+    titleAr: 'سياسة الخصوصية وحماية البيانات | Pulse OCTO',
+    titleEn: 'Privacy & Data Protection Policy | Pulse OCTO',
+    descAr: 'سياسة الخصوصية وحماية البيانات وملكية الأصول واتفاقيات عدم الإفصاح في وكالة Pulse OCTO للتسويق الرقمي والحلول البرمجية.',
+    descEn: 'Privacy policy, client data protection, asset ownership, and NDA commitments at Pulse OCTO.',
+    canonicalPath: '/privacy',
+    ogImagePath: '/og/home.jpg',
+    ogImageAltAr: 'سياسة الخصوصية وحماية البيانات - Pulse OCTO',
+    ogImageAltEn: 'Privacy Policy - Pulse OCTO',
+    ogType: 'website',
+  },
+  terms: {
+    titleAr: 'الشروط والأحكام ومستوى الخدمة | Pulse OCTO',
+    titleEn: 'Terms of Service & Standards | Pulse OCTO',
+    descAr: 'الشروط والأحكام ومعايير الجودة ومنهجية التعاون الرقمي في وكالة Pulse OCTO للتسويق الرقمي والحلول البرمجية المتكاملة.',
+    descEn: 'Terms of service, quality standards, and integrated collaboration framework at Pulse OCTO.',
+    canonicalPath: '/terms',
+    ogImagePath: '/og/home.jpg',
+    ogImageAltAr: 'الشروط والأحكام - Pulse OCTO',
+    ogImageAltEn: 'Terms of Service - Pulse OCTO',
     ogType: 'website',
   },
 
@@ -375,6 +403,32 @@ export function syncDocumentCanonical(canonicalUrl: string): void {
   });
 }
 
+/**
+ * Ensures strictly ONE matching `<meta>` tag exists in `document.head` for a given
+ * `name` or `property` attribute, updating the first and removing any duplicate copies.
+ */
+export function syncSingleMetaTag(
+  attributeName: 'name' | 'property',
+  attributeValue: string,
+  content: string
+): void {
+  if (typeof document === 'undefined') return;
+  const elements = Array.from(
+    document.head.querySelectorAll(`meta[${attributeName}="${attributeValue}"]`)
+  );
+  if (elements.length === 0) {
+    const element = document.createElement('meta');
+    element.setAttribute(attributeName, attributeValue);
+    element.setAttribute('content', content);
+    document.head.appendChild(element);
+  } else {
+    elements[0].setAttribute('content', content);
+    for (let i = 1; i < elements.length; i++) {
+      elements[i].remove();
+    }
+  }
+}
+
 export function getOgImageForView(view: string, customOgImage?: string): {
   fullUrl: string;
   localPath: string;
@@ -484,6 +538,9 @@ export function useSEO(currentView: string = 'home', options?: UseSEOOptions) {
     const raw = VIEW_SEO_DATA[resolvedKey] || VIEW_SEO_DATA.home;
     const title = options?.customTitle || (isAr ? raw.titleAr : raw.titleEn);
     const description = options?.customDescription || (isAr ? raw.descAr : raw.descEn);
+    const ogDescription =
+      options?.customDescription ||
+      (isAr ? raw.ogDescAr || raw.descAr : raw.ogDescEn || raw.descEn);
     const canonicalUrl = options?.canonicalUrl || getCanonicalUrlForView(resolvedKey);
     const imageInfo = getOgImageForView(resolvedKey, options?.ogImage);
     const ogImageAlt = isAr ? imageInfo.altAr : imageInfo.altEn;
@@ -492,6 +549,7 @@ export function useSEO(currentView: string = 'home', options?: UseSEOOptions) {
       resolvedKey,
       title,
       description,
+      ogDescription,
       canonicalUrl,
       ogImageUrl: imageInfo.fullUrl,
       localImagePath: imageInfo.localPath,
@@ -508,6 +566,7 @@ export function useSEO(currentView: string = 'home', options?: UseSEOOptions) {
       resolvedKey,
       title,
       description,
+      ogDescription,
       canonicalUrl,
       ogImageUrl,
       localImagePath,
@@ -515,53 +574,36 @@ export function useSEO(currentView: string = 'home', options?: UseSEOOptions) {
       ogType,
     } = metadata;
 
-    // 1. Update Document Title
+    // 1. Update Document Title & Language Attributes
     document.title = title;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = isAr ? 'rtl' : 'ltr';
 
-    // Helper to safely set or create a meta tag across all matching elements in document.head
-    const setMetaTag = (attributeName: 'name' | 'property', attributeValue: string, content: string) => {
-      const elements = document.head.querySelectorAll(`meta[${attributeName}="${attributeValue}"]`);
-      if (elements.length === 0) {
-        const element = document.createElement('meta');
-        element.setAttribute(attributeName, attributeValue);
-        element.setAttribute('content', content);
-        document.head.appendChild(element);
-      } else {
-        elements.forEach((el) => {
-          el.setAttribute('content', content);
-        });
-      }
-    };
+    // 2. Standard Meta Description (strictly deduplicated)
+    syncSingleMetaTag('name', 'title', title);
+    syncSingleMetaTag('name', 'description', description);
 
-    // 2. Standard Meta Description
-    setMetaTag('name', 'title', title);
-    setMetaTag('name', 'description', description);
+    // 3. OpenGraph Tags (WhatsApp, Facebook, Messenger, LinkedIn — strictly deduplicated)
+    syncSingleMetaTag('property', 'og:type', ogType);
+    syncSingleMetaTag('property', 'og:site_name', 'Pulse OCTO');
+    syncSingleMetaTag('property', 'og:title', title);
+    syncSingleMetaTag('property', 'og:description', ogDescription);
+    syncSingleMetaTag('property', 'og:url', canonicalUrl);
+    syncSingleMetaTag('property', 'og:locale', isAr ? 'ar_EG' : 'en_US');
+    syncSingleMetaTag('property', 'og:image', ogImageUrl);
+    syncSingleMetaTag('property', 'og:image:secure_url', ogImageUrl);
+    syncSingleMetaTag('property', 'og:image:type', 'image/jpeg');
+    syncSingleMetaTag('property', 'og:image:width', '1200');
+    syncSingleMetaTag('property', 'og:image:height', '630');
+    syncSingleMetaTag('property', 'og:image:alt', ogImageAlt);
 
-    // 3. OpenGraph Tags (WhatsApp, Facebook, Messenger, LinkedIn)
-    setMetaTag('property', 'og:type', ogType);
-    setMetaTag('property', 'og:title', title);
-    setMetaTag('property', 'og:description', description);
-    setMetaTag('property', 'og:url', canonicalUrl);
-    setMetaTag(
-      'property',
-      'og:site_name',
-      isAr ? 'Pulse OCTO | وكالة تسويق رقمي وحلول تقنية متكاملة' : 'Pulse OCTO | Integrated Digital Marketing & Tech Solutions Agency'
-    );
-    setMetaTag('property', 'og:locale', isAr ? 'ar_EG' : 'en_US');
-    setMetaTag('property', 'og:image', ogImageUrl);
-    setMetaTag('property', 'og:image:secure_url', ogImageUrl);
-    setMetaTag('property', 'og:image:type', 'image/jpeg');
-    setMetaTag('property', 'og:image:width', '1200');
-    setMetaTag('property', 'og:image:height', '630');
-    setMetaTag('property', 'og:image:alt', ogImageAlt);
-
-    // 4. Twitter / X Card Tags
-    setMetaTag('name', 'twitter:card', 'summary_large_image');
-    setMetaTag('name', 'twitter:title', title);
-    setMetaTag('name', 'twitter:description', description);
-    setMetaTag('name', 'twitter:url', canonicalUrl);
-    setMetaTag('name', 'twitter:image', ogImageUrl);
-    setMetaTag('name', 'twitter:image:alt', ogImageAlt);
+    // 4. Twitter / X Card Tags (strictly deduplicated)
+    syncSingleMetaTag('name', 'twitter:card', 'summary_large_image');
+    syncSingleMetaTag('name', 'twitter:title', title);
+    syncSingleMetaTag('name', 'twitter:description', ogDescription);
+    syncSingleMetaTag('name', 'twitter:url', canonicalUrl);
+    syncSingleMetaTag('name', 'twitter:image', ogImageUrl);
+    syncSingleMetaTag('name', 'twitter:image:alt', ogImageAlt);
 
     // 5. Single self-referencing Canonical Link (always clean https://www.pulseocto.com/... URL without #)
     syncDocumentCanonical(canonicalUrl);

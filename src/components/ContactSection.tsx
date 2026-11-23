@@ -384,6 +384,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ preselectedServi
                     key="consultation-form"
                     onSubmit={handleWhatsAppDirect}
                     className="space-y-6"
+                    {...({
+                      toolname: 'submit_project_inquiry',
+                      tooldescription:
+                        'Submit a digital marketing, brand identity, web/e-commerce, or growth consultation inquiry to Pulse OCTO.',
+                    } as React.FormHTMLAttributes<HTMLFormElement>)}
                   >
                     {/* Step 1: Select Services (The 8 Arms) */}
                     <div>

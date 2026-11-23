@@ -1,6 +1,14 @@
+# Pulse OCTO — Robots & AI Content Signals Policy
+# https://www.pulseocto.com/
+
 User-agent: *
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+# Explicit AI discovery resources
+# llms.txt: https://www.pulseocto.com/llms.txt
+# Markdown homepage: https://www.pulseocto.com/index.md
+# MCP Server Card: https://www.pulseocto.com/.well-known/mcp/server-card.json
 
 Host: https://www.pulseocto.com
 Sitemap: https://www.pulseocto.com/sitemap.xml
-

@@ -896,6 +896,9 @@ app.get('/api/health', (_req, res) => {
 
 const CANONICAL_SITE_URL = 'https://www.pulseocto.com';
 
+const HOMEPAGE_LINK_HEADER =
+  '</llms.txt>; rel="describedby"; type="text/plain", </index.md>; rel="alternate"; type="text/markdown", </.well-known/mcp/server-card.json>; rel="service-desc"; type="application/json", </sitemap.xml>; rel="sitemap"; type="application/xml"';
+
 const CANONICAL_SLUG_ALLOWLIST: Record<string, string> = {
   'who-we-are': 'who-we-are',
   about: 'who-we-are',
@@ -909,6 +912,11 @@ const CANONICAL_SLUG_ALLOWLIST: Record<string, string> = {
   blog: 'blog',
   insights: 'blog',
   contact: 'contact',
+  privacy: 'privacy',
+  'privacy-policy': 'privacy',
+  terms: 'terms',
+  'terms-of-service': 'terms',
+  legal: 'terms',
   card: 'card',
   vcard: 'card',
   tarek: 'card',
@@ -919,34 +927,50 @@ const CANONICAL_SLUG_ALLOWLIST: Record<string, string> = {
   'arm-1': 'branding',
   'service-1': 'branding',
   'digital-marketing': 'digital-marketing',
+  marketing: 'digital-marketing',
   'arm-2': 'digital-marketing',
   'service-2': 'digital-marketing',
   'web-ecommerce': 'web-ecommerce',
   'arm-3': 'web-ecommerce',
   'service-3': 'web-ecommerce',
   'creative-studio': 'creative-studio',
+  studio: 'creative-studio',
   'arm-4': 'creative-studio',
   'service-4': 'creative-studio',
   'digital-products': 'digital-products',
   'arm-5': 'digital-products',
   'service-5': 'digital-products',
   'brand-strategy': 'brand-strategy',
+  strategy: 'brand-strategy',
   'arm-6': 'brand-strategy',
   'service-6': 'brand-strategy',
   'content-creation': 'content-creation',
+  content: 'content-creation',
   'arm-7': 'content-creation',
   'service-7': 'content-creation',
   'seo-growth': 'seo-growth',
+  growth: 'seo-growth',
   'arm-8': 'seo-growth',
   'service-8': 'seo-growth',
+  'studio-admin': 'studio-admin',
 };
 
-function resolveCanonicalSlugForPath(reqPath: string): string {
-  const token = (reqPath || '')
+function normalizePathToken(reqPath: string): string {
+  return (reqPath || '')
     .split(/[?#]/)[0]
     .replace(/^\/+|\/+$/g, '')
     .trim()
     .toLowerCase();
+}
+
+function isKnownSpaRoute(reqPath: string): boolean {
+  const token = normalizePathToken(reqPath);
+  if (!token || token === 'home' || token === 'index.html') return true;
+  return Boolean(CANONICAL_SLUG_ALLOWLIST[token]);
+}
+
+function resolveCanonicalSlugForPath(reqPath: string): string {
+  const token = normalizePathToken(reqPath);
   if (!token || token === 'home' || token === 'index.html') return '';
   return CANONICAL_SLUG_ALLOWLIST[token] || '';
 }
@@ -954,6 +978,43 @@ function resolveCanonicalSlugForPath(reqPath: string): string {
 function resolveCanonicalUrlForPath(reqPath: string): string {
   const slug = resolveCanonicalSlugForPath(reqPath);
   return slug ? `${CANONICAL_SITE_URL}/${slug}` : `${CANONICAL_SITE_URL}/`;
+}
+
+function wantsMarkdown(req: express.Request): boolean {
+  const accept = (req.headers.accept || '').toLowerCase();
+  return accept.includes('text/markdown');
+}
+
+function readPublicFileSafe(relativePath: string): string | null {
+  const publicBase = path.resolve(__dirname, 'public');
+  const distBase = path.resolve(__dirname, 'dist');
+  for (const base of [publicBase, distBase]) {
+    const resolved = path.resolve(base, relativePath);
+    if (!resolved.startsWith(base + path.sep)) continue;
+    if (fs.existsSync(resolved)) {
+      return fs.readFileSync(resolved, 'utf-8');
+    }
+  }
+  return null;
+}
+
+function sendReal404(req: express.Request, res: express.Response): void {
+  if (wantsMarkdown(req)) {
+    res
+      .status(404)
+      .set({ 'Content-Type': 'text/markdown; charset=utf-8', Vary: 'Accept' })
+      .send('# 404 Not Found\n\nThe requested page does not exist on Pulse OCTO (https://www.pulseocto.com/).\n');
+    return;
+  }
+  const notFoundHtml = readPublicFileSafe('404.html');
+  if (notFoundHtml) {
+    res.status(404).set({ 'Content-Type': 'text/html; charset=utf-8' }).end(notFoundHtml);
+    return;
+  }
+  res
+    .status(404)
+    .set({ 'Content-Type': 'text/html; charset=utf-8' })
+    .end('<!doctype html><html lang="ar" dir="rtl"><head><title>404 | Pulse OCTO</title></head><body><h1>404 — الصفحة غير موجودة</h1></body></html>');
 }
 
 function injectCanonicalIntoHtml(html: string, reqPath: string): string {
@@ -985,6 +1046,252 @@ function injectCanonicalIntoHtml(html: string, reqPath: string): string {
     );
 }
 
+// Explicit AI Agent Discovery & Standards Endpoints (never caught by HTML fallback)
+app.get('/llms.txt', (_req, res) => {
+  const content = readPublicFileSafe('llms.txt');
+  if (!content) return res.status(404).type('text/plain').send('Not Found');
+  return res
+    .status(200)
+    .set({
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+    })
+    .send(content);
+});
+
+app.get('/index.md', (_req, res) => {
+  const content = readPublicFileSafe('index.md');
+  if (!content) return res.status(404).type('text/plain').send('Not Found');
+  return res
+    .status(200)
+    .set({
+      'Content-Type': 'text/markdown; charset=utf-8',
+      Vary: 'Accept',
+      Link: '</llms.txt>; rel="describedby"; type="text/plain", </>; rel="alternate"; type="text/html", </.well-known/mcp/server-card.json>; rel="service-desc"; type="application/json"',
+      'Cache-Control': 'public, max-age=3600',
+    })
+    .send(content);
+});
+
+app.get('/.well-known/mcp/server-card.json', (_req, res) => {
+  const content = readPublicFileSafe('.well-known/mcp/server-card.json');
+  if (!content) return res.status(404).json({ error: 'Not Found' });
+  return res
+    .status(200)
+    .set({
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+      'Access-Control-Allow-Origin': '*',
+    })
+    .send(content);
+});
+
+app.get('/robots.txt', (_req, res) => {
+  const content = readPublicFileSafe('robots.txt');
+  if (!content) return res.status(404).type('text/plain').send('Not Found');
+  return res
+    .status(200)
+    .set({
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+    })
+    .send(content);
+});
+
+// Read-only public MCP (Model Context Protocol) JSON-RPC 2.0 endpoint matching server-card.json
+const MCP_PUBLIC_TOOLS = [
+  {
+    name: 'get_agency_overview',
+    description:
+      'Return Pulse OCTO agency profile, philosophy, headquarters location in Benha, Egypt, and verified contact channels.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        lang: { type: 'string', enum: ['ar', 'en'] },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: 'list_pulse_octo_arms',
+    description: 'List all 8 integrated service arms of Pulse OCTO with descriptions and canonical page URLs.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        lang: { type: 'string', enum: ['ar', 'en'] },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: 'list_portfolio_projects',
+    description: 'List verified client portfolio projects built by Pulse OCTO.',
+    inputSchema: {
+      type: 'object',
+      properties: {},
+      additionalProperties: false,
+    },
+  },
+];
+
+app.get('/api/mcp', (_req, res) => {
+  return res.status(200).json({
+    protocolVersion: '2025-06-18',
+    serverInfo: { name: 'pulse-octo', version: '1.0.0', title: 'Pulse OCTO Digital Agency MCP Server' },
+    capabilities: { tools: { listChanged: false }, resources: { subscribe: false, listChanged: false } },
+    serverCard: `${CANONICAL_SITE_URL}/.well-known/mcp/server-card.json`,
+  });
+});
+
+app.post('/api/mcp', (req, res) => {
+  const body = req.body && typeof req.body === 'object' ? req.body : {};
+  const id = body.id ?? null;
+  const method = typeof body.method === 'string' ? body.method : '';
+  const params = body.params && typeof body.params === 'object' ? body.params : {};
+
+  if (method === 'initialize') {
+    return res.json({
+      jsonrpc: '2.0',
+      id,
+      result: {
+        protocolVersion: '2025-06-18',
+        capabilities: { tools: { listChanged: false }, resources: { subscribe: false, listChanged: false } },
+        serverInfo: { name: 'pulse-octo', version: '1.0.0' },
+      },
+    });
+  }
+
+  if (method === 'tools/list') {
+    return res.json({ jsonrpc: '2.0', id, result: { tools: MCP_PUBLIC_TOOLS } });
+  }
+
+  if (method === 'resources/list') {
+    return res.json({
+      jsonrpc: '2.0',
+      id,
+      result: {
+        resources: [
+          { uri: `${CANONICAL_SITE_URL}/llms.txt`, name: 'Pulse OCTO llms.txt', mimeType: 'text/plain' },
+          { uri: `${CANONICAL_SITE_URL}/index.md`, name: 'Pulse OCTO Homepage Markdown', mimeType: 'text/markdown' },
+        ],
+      },
+    });
+  }
+
+  if (method === 'resources/read') {
+    const uri = typeof params.uri === 'string' ? params.uri : '';
+    if (uri.endsWith('/llms.txt')) {
+      const text = readPublicFileSafe('llms.txt') || '';
+      return res.json({
+        jsonrpc: '2.0',
+        id,
+        result: { contents: [{ uri, mimeType: 'text/plain', text }] },
+      });
+    }
+    if (uri.endsWith('/index.md')) {
+      const text = readPublicFileSafe('index.md') || '';
+      return res.json({
+        jsonrpc: '2.0',
+        id,
+        result: { contents: [{ uri, mimeType: 'text/markdown', text }] },
+      });
+    }
+    return res.status(404).json({
+      jsonrpc: '2.0',
+      id,
+      error: { code: -32002, message: 'Resource not found' },
+    });
+  }
+
+  if (method === 'tools/call') {
+    const name = typeof params.name === 'string' ? params.name : '';
+    if (name === 'get_agency_overview') {
+      return res.json({
+        jsonrpc: '2.0',
+        id,
+        result: {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify({
+                name: 'Pulse OCTO',
+                philosophy: 'ONE BRAND. ONE SYSTEM. ONE PULSE. (8 ARMS. ONE SYSTEM.)',
+                location: 'Farid Nada Street, New Benha, Qalyubia, Egypt',
+                website: `${CANONICAL_SITE_URL}/`,
+                phone: '+201112998882',
+                whatsapp: 'https://wa.me/201116066968',
+                email: 'CEO@pulseOCTO.com',
+              }),
+            },
+          ],
+        },
+      });
+    }
+    if (name === 'list_pulse_octo_arms') {
+      return res.json({
+        jsonrpc: '2.0',
+        id,
+        result: {
+          content: [{ type: 'text', text: JSON.stringify(PULSE_OCTO_ARMS) }],
+        },
+      });
+    }
+    if (name === 'list_portfolio_projects') {
+      return res.json({
+        jsonrpc: '2.0',
+        id,
+        result: {
+          content: [
+            {
+              type: 'text',
+              text: JSON.stringify([
+                'Ladies Shop',
+                'Zeyad Optical',
+                'Al-Namaa Academy',
+                'Halan Delivery',
+                'Adamco',
+                'Athar',
+              ]),
+            },
+          ],
+        },
+      });
+    }
+    return res.status(400).json({
+      jsonrpc: '2.0',
+      id,
+      error: { code: -32602, message: `Unknown tool: ${name}` },
+    });
+  }
+
+  return res.status(400).json({
+    jsonrpc: '2.0',
+    id,
+    error: { code: -32601, message: 'Method not found' },
+  });
+});
+
+// Content Negotiation: Serve Markdown on homepage when agents send Accept: text/markdown
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const normalized = normalizePathToken(req.path);
+  if ((normalized === '' || normalized === 'index.html') && wantsMarkdown(req)) {
+    const md = readPublicFileSafe('index.md');
+    if (md) {
+      res
+        .status(200)
+        .set({
+          'Content-Type': 'text/markdown; charset=utf-8',
+          Vary: 'Accept',
+          Link: '</llms.txt>; rel="describedby"; type="text/plain", </>; rel="alternate"; type="text/html", </.well-known/mcp/server-card.json>; rel="service-desc"; type="application/json"',
+        })
+        .send(md);
+      return;
+    }
+  }
+  return next();
+});
+
 // Vite middleware in dev or static serving in production
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';
@@ -1002,8 +1309,10 @@ async function startServer() {
 
     app.get('*', async (req, res, next) => {
       if (req.path.startsWith('/api/')) return next();
-      // Let 404 pass through for missing static files with extensions
-      if (path.extname(req.path) && !req.path.endsWith('.html')) return next();
+      // Return real HTTP 404 for unknown routes or missing static files
+      if (!isKnownSpaRoute(req.path)) {
+        return sendReal404(req, res);
+      }
 
       try {
         const indexHtmlPath = path.resolve(__dirname, 'index.html');
@@ -1011,7 +1320,14 @@ async function startServer() {
         template = await vite.transformIndexHtml(req.originalUrl, template);
         template = template.replace(/<script\s+type="module"\s+src="\/@vite\/client"><\/script>\s*/i, '');
         const html = injectCanonicalIntoHtml(template, req.path);
-        res.status(200).set({ 'Content-Type': 'text/html; charset=utf-8' }).end(html);
+        const headers: Record<string, string> = {
+          'Content-Type': 'text/html; charset=utf-8',
+          Vary: 'Accept',
+        };
+        if (normalizePathToken(req.path) === '' || normalizePathToken(req.path) === 'index.html') {
+          headers.Link = HOMEPAGE_LINK_HEADER;
+        }
+        res.status(200).set(headers).end(html);
       } catch (err) {
         vite.ssrFixStacktrace(err as Error);
         next(err);
@@ -1022,14 +1338,24 @@ async function startServer() {
     app.use(express.static(distDir, { redirect: false, index: false }));
     app.get('*', (req, res, next) => {
       if (req.path.startsWith('/api/')) return next();
+      if (!isKnownSpaRoute(req.path)) {
+        return sendReal404(req, res);
+      }
       const slug = resolveCanonicalSlugForPath(req.path);
+      const headers: Record<string, string> = {
+        'Content-Type': 'text/html; charset=utf-8',
+        Vary: 'Accept',
+      };
+      if (!slug) {
+        headers.Link = HOMEPAGE_LINK_HEADER;
+      }
       if (slug) {
         const prerenderedPath = path.join(distDir, slug, 'index.html');
         if (fs.existsSync(prerenderedPath)) {
           const prerenderedHtml = fs.readFileSync(prerenderedPath, 'utf-8');
           return res
             .status(200)
-            .set({ 'Content-Type': 'text/html; charset=utf-8' })
+            .set(headers)
             .end(injectCanonicalIntoHtml(prerenderedHtml, req.path));
         }
       }
@@ -1043,7 +1369,7 @@ async function startServer() {
       const fallbackHtml = fs.readFileSync(fallbackPath, 'utf-8');
       return res
         .status(200)
-        .set({ 'Content-Type': 'text/html; charset=utf-8' })
+        .set(headers)
         .end(injectCanonicalIntoHtml(fallbackHtml, req.path));
     });
   }

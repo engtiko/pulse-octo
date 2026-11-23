@@ -304,13 +304,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           <div className="w-full max-w-2xl flex flex-col items-start text-left">
             {/* Title 1: Pulse Octo (Immediate paint for zero LCP/FCP delay) */}
-            <h1
+            <p
               className="hero-title-main text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-none font-['Orbitron',sans-serif] text-left drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)]"
             >
               <span className="inline-block bg-gradient-to-r from-white via-zinc-100 to-purple-200 bg-clip-text text-transparent">
                 Pulse Octo
               </span>
-            </h1>
+            </p>
 
             {/* Title 2 / Subtitle: Your Digital Pulse */}
             <motion.div
@@ -323,6 +323,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 Your Digital Pulse
               </span>
             </motion.div>
+
+            {/* Semantic H1: Core Agency Value Proposition */}
+            <h1
+              dir={isAr ? 'rtl' : 'ltr'}
+              className="mt-2 sm:mt-3 text-xs sm:text-base md:text-lg font-bold text-zinc-200/90 leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+            >
+              {isAr
+                ? 'وكالة Pulse OCTO للتسويق الرقمي والحلول التقنية المتكاملة'
+                : 'Pulse OCTO Integrated Digital Marketing & Tech Solutions Agency'}
+            </h1>
           </div>
 
           {/* Action CTAs: Stacked on left on Mobile (matching screenshot), Row on Desktop */}

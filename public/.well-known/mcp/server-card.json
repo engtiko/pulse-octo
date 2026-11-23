@@ -1,0 +1,90 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/server-card/v1.json",
+  "protocolVersion": "2025-06-18",
+  "name": "pulse-octo",
+  "version": "1.0.0",
+  "title": "Pulse OCTO Digital Agency MCP Server",
+  "description": "Public discovery and consultation MCP server for Pulse OCTO — an integrated digital marketing, branding, web/e-commerce, creative studio, automation, and SEO agency in Benha, Qalyubia, Egypt.",
+  "websiteUrl": "https://www.pulseocto.com/",
+  "endpoint": "https://www.pulseocto.com/api/mcp",
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://www.pulseocto.com/api/mcp"
+  },
+  "serverInfo": {
+    "name": "pulse-octo",
+    "version": "1.0.0",
+    "title": "Pulse OCTO Digital Agency MCP Server"
+  },
+  "authentication": {
+    "required": false,
+    "schemes": []
+  },
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    },
+    "resources": {
+      "subscribe": false,
+      "listChanged": false
+    },
+    "prompts": {
+      "listChanged": false
+    }
+  },
+  "tools": [
+    {
+      "name": "get_agency_overview",
+      "description": "Return Pulse OCTO agency profile, philosophy, headquarters location in Benha, Egypt, and verified contact channels.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "lang": {
+            "type": "string",
+            "enum": ["ar", "en"],
+            "description": "Preferred response language (ar or en)."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_pulse_octo_arms",
+      "description": "List all 8 integrated service arms of Pulse OCTO with descriptions and canonical page URLs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "lang": {
+            "type": "string",
+            "enum": ["ar", "en"],
+            "description": "Preferred response language (ar or en)."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_portfolio_projects",
+      "description": "List verified client portfolio projects built by Pulse OCTO.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "https://www.pulseocto.com/llms.txt",
+      "name": "Pulse OCTO llms.txt",
+      "description": "Plain-text agency index and navigation map for LLM agents.",
+      "mimeType": "text/plain"
+    },
+    {
+      "uri": "https://www.pulseocto.com/index.md",
+      "name": "Pulse OCTO Homepage Markdown",
+      "description": "Token-efficient Markdown representation of the Pulse OCTO homepage.",
+      "mimeType": "text/markdown"
+    }
+  ]
+}
